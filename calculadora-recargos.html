@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Recargos y Actualización SAT 2026 | Asesor Francisco Canto</title>
+<meta name="description" content="Calcula recargos y actualización del SAT con INPC e tasa de mora 2026. Solo necesitas el monto y dos fechas. Herramienta gratuita de Asesor Francisco Canto, contador en Mérida, Yucatán.">
+<meta name="keywords" content="calculadora recargos SAT 2026, actualización de contribuciones, factor de actualización INPC, mora SAT, contador Mérida">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--navy:#0D1B2A;--navy2:#1B2B3F;--navy3:#243B55;--gold:#C9A84C;--gold2:#E8C76A;--gray:#F4F6F8;--text:#2C3E50;--muted:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--gray)}
+
+header{background:var(--navy);padding:1rem 6%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:15px}
+.logo-text{color:#fff;font-size:13.5px;font-weight:600}
+.logo-sub{color:var(--gold);font-size:9.5px;text-transform:uppercase;letter-spacing:1px}
+.back-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--gold)}
+
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 5% 4rem}
+.page-head{text-align:center;margin-bottom:2rem}
+.tag{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.12);color:#8a6d1f;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:1rem}
+h1{font-size:1.7rem;color:var(--navy);margin-bottom:.6rem;line-height:1.25}
+.page-head p{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:480px;margin:0 auto}
+
+.card{background:#fff;border-radius:18px;padding:2rem;box-shadow:0 10px 40px rgba(13,27,42,.08);margin-bottom:1.5rem}
+
+.field{margin-bottom:1.4rem}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:7px}
+.field label i{color:var(--gold);margin-right:6px;width:16px}
+.field .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+.input{width:100%;border:1.5px solid #e2e5e9;border-radius:10px;padding:13px 16px;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s}
+.input:focus{border-color:var(--gold)}
+
+.adjust-toggle{background:none;border:none;color:var(--muted);font-size:12.5px;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:1.2rem;font-family:inherit;padding:0;text-align:left}
+.adjust-toggle i{transition:transform .3s}
+.adjust-toggle.open i{transform:rotate(180deg)}
+.adjust-box{display:none;background:var(--gray);border-radius:10px;padding:1.1rem;margin-bottom:1.2rem}
+.adjust-box.show{display:block}
+.adjust-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--gold);border:none;padding:16px;border-radius:12px;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:9px;font-family:inherit}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(13,27,42,.25)}
+
+.result{display:none;margin-top:1.6rem}
+.result.show{display:block;animation:fadeUp .5s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.res-total{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:14px;padding:1.6rem;text-align:center;margin-bottom:1rem}
+.res-total .lbl{color:rgba(255,255,255,.55);font-size:11.5px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.res-total .num{color:var(--gold);font-size:2.2rem;font-weight:700}
+.res-breakdown{background:var(--gray);border-radius:12px;padding:1rem 1.3rem}
+.res-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed #d8dbe0;font-size:13.5px}
+.res-row:last-child{border:none}
+.res-row span:first-child{color:var(--muted)}
+.res-row span:last-child{font-weight:700;color:var(--navy);text-align:right}
+.chips{text-align:center;margin-top:.9rem;display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.chip{display:inline-block;background:rgba(201,168,76,.15);color:#8a6d1f;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:700}
+
+.notes{margin-top:1rem;display:flex;flex-direction:column;gap:6px}
+.note{background:rgba(201,168,76,.1);border-left:3px solid var(--gold);padding:8px 12px;border-radius:6px;font-size:12px;color:var(--text);line-height:1.5}
+.note.ok{background:rgba(46,139,87,.09);border-color:#2e8b57}
+
+details.how{margin-top:1rem;background:var(--gray);border-radius:10px;padding:.9rem 1.1rem}
+details.how summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--navy)}
+details.how ul{margin:.7rem 0 0 1.1rem;font-size:12px;color:var(--muted);line-height:1.7}
+
+.disc{font-size:11px;color:var(--muted);font-style:italic;text-align:center;margin-top:1rem;line-height:1.6}
+.data-stamp{font-size:11px;color:var(--muted);text-align:center;margin-top:.9rem}
+.data-stamp i{color:var(--gold)}
+
+.cta-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:16px;padding:1.8rem;text-align:center}
+.cta-card i{font-size:1.8rem;color:var(--gold);margin-bottom:.8rem}
+.cta-card h3{color:#fff;font-size:1.05rem;margin-bottom:.5rem}
+.cta-card p{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:1.2rem;line-height:1.6}
+.cta-btn{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+
+.tools-nav{display:flex;gap:.7rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.tool-pill{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #e2e5e9;color:var(--navy);padding:9px 16px;border-radius:20px;text-decoration:none;font-size:12.5px;font-weight:600;transition:all .2s}
+.tool-pill:hover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.tool-pill i{color:var(--gold)}
+
+footer{text-align:center;padding:1.6rem;color:var(--muted);font-size:12px}
+footer a{color:var(--navy);text-decoration:none;font-weight:600}
+@media(max-width:480px){.adjust-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">FC</div>
+    <div><div class="logo-text">Francisco Canto</div><div class="logo-sub">Asesor Contable</div></div>
+  </a>
+  <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver al sitio</a>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="tag"><i class="fa-solid fa-percent"></i> Herramienta gratuita</div>
+    <h1>Calculadora de Recargos y Actualización</h1>
+    <p>Descubre cuánto debes pagar al SAT por un impuesto atrasado. Solo necesitas el monto y las fechas; el INPC y la tasa ya están cargados.</p>
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label><i class="fa-solid fa-dollar-sign"></i>¿Cuánto debías pagar?</label>
+      <input type="number" class="input" id="monto" placeholder="Ej. 10000" oninput="calcular(true)">
+      <p class="hint">El monto original del impuesto o contribución que no pagaste a tiempo.</p>
+    </div>
+    <div class="field">
+      <label><i class="fa-solid fa-calendar-xmark"></i>¿Cuál era la fecha límite de pago?</label>
+      <input type="date" class="input" id="fechaVencimiento" oninput="calcular(true)">
+      <p class="hint">La fecha límite original de tu declaración o pago (por ejemplo, el día 17 del mes siguiente).</p>
+    </div>
+    <div class="field">
+      <label><i class="fa-solid fa-calendar-check"></i>¿Cuándo vas a pagarlo?</label>
+      <input type="date" class="input" id="fechaPago" oninput="calcular(true)">
+      <p class="hint">Ya viene con la fecha de hoy. Cámbiala si pagarás otro día.</p>
+    </div>
+
+    <button class="adjust-toggle" id="advToggle" onclick="toggleAdv()">
+      <i class="fa-solid fa-chevron-down"></i> Opciones avanzadas: usar mi propio factor o tasa
+    </button>
+    <div class="adjust-box" id="advBox">
+      <div class="adjust-grid">
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Factor de actualización</label>
+          <input type="number" step="0.0001" class="input" id="factorManual" placeholder="Automático" oninput="calcular(true)">
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">Tasa de recargo mensual (%)</label>
+          <input type="number" step="0.01" class="input" id="tasaManual" placeholder="Automática" oninput="calcular(true)">
+        </div>
+      </div>
+      <p class="hint" style="margin-top:.7rem">Déjalos vacíos para usar los valores oficiales cargados en esta página.</p>
+    </div>
+
+    <button class="calc-btn" onclick="calcular(false)"><i class="fa-solid fa-calculator"></i> Calcular mi pago</button>
+
+    <div class="result" id="resultBox">
+      <div class="res-total">
+        <div class="lbl">Total estimado a pagar</div>
+        <div class="num" id="resTotal">$0.00</div>
+      </div>
+      <div class="res-breakdown">
+        <div class="res-row"><span>Monto original</span><span id="resMonto">$0.00</span></div>
+        <div class="res-row"><span>Actualización</span><span id="resActualizacion">$0.00</span></div>
+        <div class="res-row"><span>Impuesto actualizado</span><span id="resActualizado">$0.00</span></div>
+        <div class="res-row"><span>Recargos</span><span id="resRecargos">$0.00</span></div>
+      </div>
+      <div class="chips">
+        <span class="chip" id="chipMeses">0 meses</span>
+        <span class="chip" id="chipFactor">Factor 1.0000</span>
+        <span class="chip" id="chipTasa">Tasa 0%</span>
+      </div>
+      <div class="notes" id="notes"></div>
+
+      <details class="how">
+        <summary>¿Cómo se calculó?</summary>
+        <ul id="howList"></ul>
+      </details>
+      <p class="disc">*Estimación de referencia conforme a los artículos 17-A y 21 del Código Fiscal de la Federación. Para tu pago oficial, confirma el monto conmigo o en el portal del SAT.</p>
+    </div>
+    <p class="data-stamp"><i class="fa-solid fa-database"></i> <span id="stamp"></span></p>
+  </div>
+
+  <div class="cta-card">
+    <i class="fa-brands fa-whatsapp"></i>
+    <h3>¿Prefieres que lo calcule yo por ti?</h3>
+    <p>Mándame tu resultado y te confirmo el monto exacto, sin compromiso.</p>
+    <a href="https://wa.me/529993027349" class="cta-btn" id="waBtn" target="_blank"><i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp</a>
+  </div>
+
+  <div class="tools-nav">
+    <a href="calculadora-sueldos.html" class="tool-pill"><i class="fa-solid fa-sack-dollar"></i> Calculadora de Sueldos</a>
+    <a href="calculadora-imss.html" class="tool-pill"><i class="fa-solid fa-hospital"></i> Calculadora IMSS</a>
+  </div>
+</div>
+
+<footer>
+  Asesor Francisco Canto · Mérida, Yucatán · <a href="tel:9993027349">999 302 7349</a>
+</footer>
+
+<script>
+/* ==================================================================
+   DATOS OFICIALES: ACTUALIZA SOLO ESTE BLOQUE
+   ------------------------------------------------------------------
+   INPC (INEGI, base 2a quincena jul 2018 = 100). Un arreglo por año,
+   12 valores (enero a diciembre). Cada mes nuevo, agrega su valor al
+   final del arreglo del año en curso (INEGI lo publica ~día 9 del mes
+   siguiente). Para un año nuevo agrega una línea:  2027:[ ... ],
+
+   TASAS: recargos por mora mensual (%) por año. Se define en la Ley
+   de Ingresos de la Federación. Si un año no aparece, se usa
+   TASA_DEFAULT.
+   ================================================================== */
+const INPC={
+  2016:[89.386,89.778,89.910,89.625,89.226,89.324,89.557,89.809,90.358,90.906,91.617,92.039],
+  2017:[93.604,94.145,94.722,94.839,94.725,94.964,95.323,95.794,96.094,96.698,97.695,98.273],
+  2018:[98.795,99.171,99.492,99.155,98.994,99.376,99.909,100.492,100.917,101.440,102.303,103.020],
+  2019:[103.108,103.079,103.476,103.531,103.233,103.299,103.687,103.670,103.942,104.503,105.346,105.934],
+  2020:[106.447,106.889,106.838,105.755,106.162,106.743,107.444,107.867,108.114,108.774,108.856,109.271],
+  2021:[110.210,110.907,111.824,112.190,112.419,113.018,113.682,113.899,114.601,115.561,116.884,117.308],
+  2022:[118.002,118.981,120.159,120.809,121.022,122.044,122.948,123.803,124.571,125.276,125.997,126.478],
+  2023:[127.336,128.046,128.389,128.363,128.084,128.214,128.832,129.545,130.120,130.609,131.445,132.373],
+  2024:[133.555,133.681,134.065,134.336,134.087,134.594,136.003,136.013,136.080,136.828,137.424,137.949],
+  2025:[138.343,138.726,139.161,139.620,140.012,140.405,140.780,140.867,141.197,141.708,142.645,143.042],
+  2026:[143.588,144.307,145.544,145.831,145.527,145.131,145.169,145.462]
+};
+const TASA_DEFAULT=1.47;
+const TASA_ANIO_INICIAL=2019;   // antes de este año se pide confirmar la tasa
+const TASAS={ 2026:2.07 };      // 2019-2025: 1.47% (TASA_DEFAULT)
+const MAX_MESES=60;             // los recargos se limitan a 5 años (art. 21 CFF)
+/* ================================================================== */
+
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return{y,m,d};};
+const key=o=>o.y*10000+o.m*100+o.d;
+const getINPC=(y,m)=>INPC[y]?INPC[y][m-1]:undefined;
+const prevMonth=(y,m)=>m===1?[y-1,12]:[y,m-1];
+const tasaDe=y=>TASAS[y]!==undefined?TASAS[y]:TASA_DEFAULT;
+
+function latestINPC(){
+  const ys=Object.keys(INPC).map(Number).sort((a,b)=>b-a);
+  for(const y of ys){const a=INPC[y];for(let i=a.length-1;i>=0;i--){if(a[i]!=null)return{y,m:i+1,v:a[i]};}}
+}
+
+function toggleAdv(){
+  document.getElementById('advBox').classList.toggle('show');
+  document.getElementById('advToggle').classList.toggle('open');
+}
+
+function calcular(silent){
+  const monto=+document.getElementById('monto').value||0;
+  const fv=document.getElementById('fechaVencimiento').value;
+  const fp=document.getElementById('fechaPago').value;
+  const box=document.getElementById('resultBox');
+  if(!(monto>0&&fv&&fp)){
+    if(!silent)alert('Ingresa el monto y las dos fechas.');
+    box.classList.remove('show');return;
+  }
+  const a=parse(fv),b=parse(fp);
+  const notes=[],how=[];
+  const factorManual=+document.getElementById('factorManual').value||0;
+  const tasaManual=+document.getElementById('tasaManual').value||0;
+
+  // Pago a tiempo
+  if(key(b)<=key(a)){
+    pintar({monto,factor:1,actualizado:monto,recargos:0,meses:0,tasaTxt:'—',total:monto,
+      notes:[{t:'Pagas en la fecha límite o antes: no hay recargos ni actualización.',ok:true}],how:[]});
+    return;
+  }
+
+  // Meses de atraso: por cada mes o fracción (art. 21 CFF)
+  let meses=(b.y-a.y)*12+(b.m-a.m);
+  if(b.d>a.d)meses+=1;
+  if(meses<1)meses=1;
+  if(meses>MAX_MESES){meses=MAX_MESES;notes.push({t:'Los recargos se limitan a 5 años (60 meses), como marca el art. 21 del CFF.'});}
+
+  // Factor de actualización (art. 17-A CFF)
+  let factor=1,factorTxt='';
+  if(factorManual>0){
+    factor=factorManual;factorTxt='Factor capturado por ti: '+factor.toFixed(4);
+    notes.push({t:'Estás usando un factor de actualización capturado manualmente.'});
+  }else{
+    const [py,pm]=prevMonth(b.y,b.m);
+    const [dy,dm]=prevMonth(a.y,a.m);
+    let num=getINPC(py,pm),usadoNum=MESES[pm-1]+' '+py;
+    const den=getINPC(dy,dm);
+    if(den===undefined){
+      notes.push({t:'No tenemos el INPC de '+MESES[dm-1]+' '+dy+'. Captura el factor en "Opciones avanzadas" para continuar; mientras tanto se usa factor 1.'});
+    }
+    if(num===undefined){
+      const last=latestINPC();
+      num=last.v;usadoNum=MESES[last.m-1]+' '+last.y;
+      notes.push({t:'Aún no se publica el INPC de '+MESES[pm-1]+' '+py+'. Conforme al art. 17-A se usó el último INPC publicado ('+MESES[last.m-1]+' '+last.y+').'});
+    }
+    if(den!==undefined&&num!==undefined){
+      const bruto=num/den;
+      factor=Math.round(bruto*10000)/10000;
+      if(factor<1){factor=1;how.push('El factor salió menor a 1, por ley se toma 1.0000.');}
+      how.push('Factor = INPC '+usadoNum+' ('+num+') ÷ INPC '+MESES[dm-1]+' '+dy+' ('+den+') = '+factor.toFixed(4));
+    }
+  }
+
+  const actualizado=monto*factor;
+
+  // Tasa de recargos mes por mes
+  let sumaTasa=0,tasaTxt='';
+  if(tasaManual>0){
+    sumaTasa=tasaManual*meses;tasaTxt=tasaManual.toFixed(2)+'% mensual';
+    notes.push({t:'Estás usando una tasa de recargo capturada manualmente.'});
+  }else{
+    const porAnio={};
+    for(let k=1;k<=meses;k++){
+      const y=a.y+Math.floor((a.m-1+k)/12);
+      const t=tasaDe(y);sumaTasa+=t;porAnio[t]=(porAnio[t]||0)+1;
+    }
+    const partes=Object.keys(porAnio).map(t=>porAnio[t]+' × '+(+t).toFixed(2)+'%');
+    tasaTxt=Object.keys(porAnio).length===1?(+Object.keys(porAnio)[0]).toFixed(2)+'% mensual':'Tasa variable';
+    how.push('Recargos = '+partes.join(' + ')+' = '+sumaTasa.toFixed(2)+'% sobre el impuesto actualizado.');
+    if(a.y<TASA_ANIO_INICIAL)notes.push({t:'Para adeudos anteriores a '+TASA_ANIO_INICIAL+' confirma la tasa aplicable; aquí se usó 1.47% mensual.'});
+  }
+  const recargos=actualizado*(sumaTasa/100);
+  const total=actualizado+recargos;
+
+  how.unshift('Meses de atraso: '+meses+' (por cada mes o fracción, desde la fecha límite hasta el pago).');
+  how.push('Impuesto actualizado = '+fmt(monto)+' × '+factor.toFixed(4)+' = '+fmt(actualizado));
+
+  pintar({monto,factor,actualizado,recargos,meses,tasaTxt,total,notes,how});
+}
+
+function pintar(r){
+  document.getElementById('resTotal').textContent=fmt(r.total);
+  document.getElementById('resMonto').textContent=fmt(r.monto);
+  document.getElementById('resActualizacion').textContent=fmt(r.actualizado-r.monto);
+  document.getElementById('resActualizado').textContent=fmt(r.actualizado);
+  document.getElementById('resRecargos').textContent=fmt(r.recargos);
+  document.getElementById('chipMeses').textContent=r.meses+(r.meses===1?' mes de atraso':' meses de atraso');
+  document.getElementById('chipFactor').textContent='Factor '+r.factor.toFixed(4);
+  document.getElementById('chipTasa').textContent='Tasa '+r.tasaTxt;
+  document.getElementById('notes').innerHTML=r.notes.map(n=>`<div class="note${n.ok?' ok':''}">${n.t}</div>`).join('');
+  document.getElementById('howList').innerHTML=r.how.map(h=>`<li>${h}</li>`).join('')||'<li>No hubo atraso, así que no se calculó nada adicional.</li>';
+  document.getElementById('resultBox').classList.add('show');
+  const msg=encodeURIComponent(`Hola Francisco, usé tu calculadora de recargos: el impuesto original era ${fmt(r.monto)} con ${r.meses} meses de atraso. Me dio un total estimado de ${fmt(r.total)}. ¿Podrías confirmarme el monto exacto?`);
+  document.getElementById('waBtn').href=`https://wa.me/529993027349?text=${msg}`;
+}
+
+// Inicio: fecha de hoy y sello de datos
+(function(){
+  const t=new Date();
+  const iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+  document.getElementById('fechaPago').value=iso;
+  const l=latestINPC();
+  document.getElementById('stamp').textContent='Datos cargados: INPC hasta '+MESES[l.m-1]+' '+l.y+' · Tasa de mora 2026: '+TASAS[2026].toFixed(2)+'% mensual';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Sueldo Neto y Bruto 2026 | Asesor Francisco Canto</title>
+<meta name="description" content="Calcula tu salario neto 2026 a partir del bruto, o al revés: qué bruto pedir para recibir el neto que quieres. Incluye tarifa ISR 2026 y subsidio al empleo. Herramienta gratuita de Asesor Francisco Canto, contador en Mérida, Yucatán.">
+<meta name="keywords" content="calculadora de sueldo neto 2026, calculadora sueldo bruto, tabla ISR 2026, subsidio al empleo, cuanto me descuentan de nomina, contador Mérida">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--navy:#0D1B2A;--navy2:#1B2B3F;--navy3:#243B55;--gold:#C9A84C;--gold2:#E8C76A;--gray:#F4F6F8;--text:#2C3E50;--muted:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--gray)}
+
+header{background:var(--navy);padding:1rem 6%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:15px}
+.logo-text{color:#fff;font-size:13.5px;font-weight:600}
+.logo-sub{color:var(--gold);font-size:9.5px;text-transform:uppercase;letter-spacing:1px}
+.back-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--gold)}
+
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 5% 4rem}
+
+.page-head{text-align:center;margin-bottom:2rem}
+.tag{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.12);color:#8a6d1f;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:1rem}
+h1{font-size:1.7rem;color:var(--navy);margin-bottom:.6rem;line-height:1.25}
+.page-head p{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:480px;margin:0 auto}
+
+.card{background:#fff;border-radius:18px;padding:2rem;box-shadow:0 10px 40px rgba(13,27,42,.08);margin-bottom:1.5rem}
+
+.mode-toggle{display:flex;background:var(--gray);border-radius:12px;padding:5px;margin-bottom:1.8rem;gap:4px}
+.mode-btn{flex:1;padding:11px 10px;border:none;background:transparent;border-radius:8px;font-weight:600;font-size:12.5px;color:var(--muted);cursor:pointer;transition:all .25s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.mode-btn.active{background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--gold);box-shadow:0 4px 14px rgba(13,27,42,.2)}
+
+.field label{display:block;font-size:14.5px;font-weight:700;color:var(--navy);margin-bottom:9px;text-align:center}
+.big-input-wrap{position:relative;max-width:320px;margin:0 auto}
+.big-input-wrap .cur{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1.4rem;font-weight:600}
+.big-input{width:100%;border:2px solid #e2e5e9;border-radius:14px;padding:16px 16px 16px 40px;font-size:1.7rem;font-weight:700;font-family:inherit;outline:none;transition:border-color .2s;text-align:left;color:var(--navy)}
+.big-input:focus{border-color:var(--gold)}
+.field .hint{font-size:12px;color:var(--muted);margin-top:9px;text-align:center}
+
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--gold);border:none;padding:16px;border-radius:12px;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:9px;font-family:inherit;margin-top:1.6rem}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(13,27,42,.25)}
+
+.result{display:none;margin-top:1.8rem}
+.result.show{display:block;animation:fadeUp .5s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+.res-total{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:14px;padding:1.8rem;text-align:center;margin-bottom:1.2rem}
+.res-total .lbl{color:rgba(255,255,255,.55);font-size:11.5px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.res-total .num{color:var(--gold);font-size:2.3rem;font-weight:700}
+.res-total .sub{color:rgba(255,255,255,.45);font-size:12px;margin-top:6px}
+
+.bar{height:34px;border-radius:10px;overflow:hidden;display:flex;margin-bottom:1rem;box-shadow:inset 0 0 0 1px #e2e5e9}
+.bar-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;transition:width .6s ease}
+.bar-neto{background:linear-gradient(135deg,#2e8b57,#3fae72)}
+.bar-isr{background:linear-gradient(135deg,#C9A84C,#E8C76A);color:var(--navy)}
+.bar-imss{background:linear-gradient(135deg,var(--navy3),var(--navy2))}
+
+.legend{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:3px}
+
+.res-breakdown{background:var(--gray);border-radius:12px;padding:1rem 1.3rem}
+.res-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed #d8dbe0;font-size:13.5px}
+.res-row:last-child{border:none}
+.res-row span:first-child{color:var(--muted)}
+.res-row span:last-child{font-weight:700;color:var(--navy)}
+
+.note{background:rgba(46,139,87,.09);border-left:3px solid #2e8b57;padding:8px 12px;border-radius:6px;font-size:12px;color:var(--text);line-height:1.5;margin-top:1rem}
+
+details.how{margin-top:1rem;background:var(--gray);border-radius:10px;padding:.9rem 1.1rem}
+details.how summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--navy)}
+details.how ul{margin:.7rem 0 0 1.1rem;font-size:12px;color:var(--muted);line-height:1.7}
+
+.disc{font-size:11px;color:var(--muted);font-style:italic;text-align:center;margin-top:1rem;line-height:1.6}
+.data-stamp{font-size:11px;color:var(--muted);text-align:center;margin-top:.9rem}
+.data-stamp i{color:var(--gold)}
+
+.cta-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:16px;padding:1.8rem;text-align:center}
+.cta-card i{font-size:1.8rem;color:var(--gold);margin-bottom:.8rem}
+.cta-card h3{color:#fff;font-size:1.05rem;margin-bottom:.5rem}
+.cta-card p{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:1.2rem;line-height:1.6}
+.cta-btn{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+
+.tools-nav{display:flex;gap:.7rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.tool-pill{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #e2e5e9;color:var(--navy);padding:9px 16px;border-radius:20px;text-decoration:none;font-size:12.5px;font-weight:600;transition:all .2s}
+.tool-pill:hover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.tool-pill i{color:var(--gold)}
+
+footer{text-align:center;padding:1.6rem;color:var(--muted);font-size:12px}
+footer a{color:var(--navy);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">FC</div>
+    <div><div class="logo-text">Francisco Canto</div><div class="logo-sub">Asesor Contable</div></div>
+  </a>
+  <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver al sitio</a>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="tag"><i class="fa-solid fa-sack-dollar"></i> Herramienta gratuita · Tarifa 2026</div>
+    <h1 id="pageTitle">Calculadora de Sueldo Neto</h1>
+    <p id="pageDesc">Escribe tu sueldo bruto mensual y descubre al instante cuánto recibes realmente después de impuestos.</p>
+  </div>
+
+  <div class="card">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeBrutoBtn" onclick="setMode('bruto')"><i class="fa-solid fa-arrow-right"></i> Tengo mi sueldo bruto</button>
+      <button class="mode-btn" id="modeNetoBtn" onclick="setMode('neto')"><i class="fa-solid fa-arrow-left"></i> Quiero un neto específico</button>
+    </div>
+
+    <div class="field">
+      <label id="inputLabel">¿Cuál es tu sueldo bruto mensual?</label>
+      <div class="big-input-wrap">
+        <span class="cur">$</span>
+        <input type="number" class="big-input" id="monto" placeholder="15,000" oninput="if(this.value)calcular()">
+      </div>
+      <p class="hint" id="inputHint">El sueldo que aparece en tu contrato, antes de cualquier descuento.</p>
+    </div>
+
+    <button class="calc-btn" onclick="calcular()"><i class="fa-solid fa-calculator"></i> <span id="btnText">Calcular mi sueldo neto</span></button>
+
+    <div class="result" id="resultBox">
+      <div class="res-total">
+        <div class="lbl" id="resTotalLbl">Tu sueldo neto estimado</div>
+        <div class="num" id="resTotalNum">$0.00</div>
+        <div class="sub" id="resPct">0% de tu sueldo bruto</div>
+      </div>
+
+      <div class="bar">
+        <div class="bar-seg bar-neto" id="barNeto" style="width:0%"></div>
+        <div class="bar-seg bar-isr" id="barIsr" style="width:0%"></div>
+        <div class="bar-seg bar-imss" id="barImss" style="width:0%"></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><span class="leg-dot" style="background:#3fae72"></span> Lo que recibes</div>
+        <div class="leg-item"><span class="leg-dot" style="background:var(--gold)"></span> ISR</div>
+        <div class="leg-item"><span class="leg-dot" style="background:var(--navy3)"></span> IMSS</div>
+      </div>
+
+      <div class="res-breakdown">
+        <div class="res-row"><span>Sueldo bruto</span><span id="resBruto">$0.00</span></div>
+        <div class="res-row"><span>ISR según tarifa (Art. 96)</span><span id="resIsrBase">$0.00</span></div>
+        <div class="res-row"><span>Subsidio al empleo</span><span id="resSubsidio">$0.00</span></div>
+        <div class="res-row"><span>ISR a retener</span><span id="resIsr">$0.00</span></div>
+        <div class="res-row"><span>Cuota IMSS (estimada)</span><span id="resImss">$0.00</span></div>
+        <div class="res-row"><span>Sueldo neto</span><span id="resNeto2">$0.00</span></div>
+      </div>
+      <div class="note" id="subsidioNote" style="display:none"></div>
+
+      <details class="how">
+        <summary>¿Cómo se calculó?</summary>
+        <ul id="howList"></ul>
+      </details>
+      <p class="disc">*Cálculo con la tarifa mensual de ISR 2026 (Art. 96 LISR) y el subsidio al empleo vigente. La cuota IMSS es una estimación simplificada (~2.78% del bruto); no incluye horas extra, aguinaldo ni otras prestaciones — para tu recibo exacto, contáctame.</p>
+    </div>
+    <p class="data-stamp"><i class="fa-solid fa-database"></i> Tarifa ISR y subsidio al empleo 2026 (DOF 31-dic-2025)</p>
+  </div>
+
+  <div class="cta-card">
+    <i class="fa-brands fa-whatsapp"></i>
+    <h3>¿Quieres tu cálculo exacto?</h3>
+    <p>Con tus prestaciones y régimen específico te doy el número preciso de tu nómina, sin costo por la primera revisión.</p>
+    <a href="#" class="cta-btn" id="waBtn" target="_blank"><i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp</a>
+  </div>
+
+  <div class="tools-nav">
+    <a href="calculadora-recargos.html" class="tool-pill"><i class="fa-solid fa-percent"></i> Recargos y Actualización</a>
+    <a href="calculadora-imss.html" class="tool-pill"><i class="fa-solid fa-hospital"></i> Calculadora IMSS</a>
+  </div>
+</div>
+
+<footer>
+  Asesor Francisco Canto · Mérida, Yucatán · <a href="tel:9993027349">999 302 7349</a>
+</footer>
+
+<script>
+/* ==================================================================
+   DATOS OFICIALES 2026 — ACTUALIZA SOLO ESTE BLOQUE CADA AÑO
+   Fuente: Anexo 8 de la Resolución Miscelánea Fiscal / DOF 31-dic-2025
+   ================================================================== */
+const isrTable=[
+  {li:0.01,ls:844.59,cuota:0.00,pct:1.92},
+  {li:844.60,ls:7168.51,cuota:16.22,pct:6.40},
+  {li:7168.52,ls:12598.02,cuota:420.95,pct:10.88},
+  {li:12598.03,ls:14644.64,cuota:1011.68,pct:16.00},
+  {li:14644.65,ls:17533.64,cuota:1339.14,pct:17.92},
+  {li:17533.65,ls:35362.83,cuota:1856.84,pct:21.36},
+  {li:35362.84,ls:55736.68,cuota:5665.16,pct:23.52},
+  {li:55736.69,ls:106410.50,cuota:10457.09,pct:30.00},
+  {li:106410.51,ls:141880.66,cuota:25659.23,pct:32.00},
+  {li:141880.67,ls:425641.99,cuota:37009.69,pct:34.00},
+  {li:425642.00,ls:Infinity,cuota:133488.54,pct:35.00}
+];
+const SUBSIDIO_TOPE=11492.66;   // ingreso mensual máximo para recibir subsidio
+const SUBSIDIO_CUOTA=535.65;    // cuota fija mensual (enero 2026: 536.21)
+const IMSS_RATE=0.02775;        // estimación simplificada de cuota obrera
+/* ================================================================== */
+
+let mode='bruto';
+
+function setMode(m){
+  mode=m;
+  document.getElementById('modeBrutoBtn').classList.toggle('active',m==='bruto');
+  document.getElementById('modeNetoBtn').classList.toggle('active',m==='neto');
+  document.getElementById('monto').value='';
+  document.getElementById('resultBox').classList.remove('show');
+  if(m==='bruto'){
+    document.getElementById('pageTitle').textContent='Calculadora de Sueldo Neto';
+    document.getElementById('pageDesc').textContent='Escribe tu sueldo bruto mensual y descubre al instante cuánto recibes realmente después de impuestos.';
+    document.getElementById('inputLabel').textContent='¿Cuál es tu sueldo bruto mensual?';
+    document.getElementById('inputHint').textContent='El sueldo que aparece en tu contrato, antes de cualquier descuento.';
+    document.getElementById('btnText').textContent='Calcular mi sueldo neto';
+    document.getElementById('resTotalLbl').textContent='Tu sueldo neto estimado';
+  }else{
+    document.getElementById('pageTitle').textContent='Calculadora de Sueldo Bruto';
+    document.getElementById('pageDesc').textContent='Dinos cuánto quieres recibir en la mano cada mes y te decimos qué sueldo bruto debes negociar.';
+    document.getElementById('inputLabel').textContent='¿Cuánto quieres recibir de neto?';
+    document.getElementById('inputHint').textContent='La cantidad que quieres ver reflejada en tu cuenta cada mes.';
+    document.getElementById('btnText').textContent='Calcular sueldo bruto necesario';
+    document.getElementById('resTotalLbl').textContent='Sueldo bruto que necesitas';
+  }
+}
+
+function isrBaseDe(bruto){
+  const b=isrTable.find(r=>bruto>=r.li&&bruto<=r.ls)||isrTable[isrTable.length-1];
+  return Math.max(0,b.cuota+(bruto-b.li)*(b.pct/100));
+}
+function subsidioDe(bruto){ return bruto<=SUBSIDIO_TOPE ? SUBSIDIO_CUOTA : 0; }
+
+function calcularTodo(bruto){
+  const isrBase=isrBaseDe(bruto);
+  const subsidio=subsidioDe(bruto);
+  let isr=isrBase-subsidio, entrega=0;
+  if(isr<0){entrega=-isr;isr=0;}
+  const imss=bruto*IMSS_RATE;
+  const neto=bruto-isr-imss+entrega;
+  return{bruto,isrBase,subsidio,isr,entrega,imss,neto};
+}
+
+function brutoDesdeNeto(netoDeseado){
+  let lo=0,hi=3000000;
+  for(let i=0;i<60;i++){
+    const mid=(lo+hi)/2;
+    const r=calcularTodo(mid);
+    if(r.neto<netoDeseado) lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+
+function pintarResultado(r){
+  const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('resTotalNum').textContent = mode==='bruto'? fmt(r.neto) : fmt(r.bruto);
+  document.getElementById('resPct').textContent = mode==='bruto'
+    ? Math.round((r.neto/r.bruto)*100)+'% de tu sueldo bruto'
+    : 'para recibir '+fmt(r.neto)+' de neto';
+  document.getElementById('resBruto').textContent=fmt(r.bruto);
+  document.getElementById('resIsrBase').textContent=fmt(r.isrBase);
+  document.getElementById('resSubsidio').textContent=fmt(r.subsidio);
+  document.getElementById('resIsr').textContent=fmt(r.isr);
+  document.getElementById('resImss').textContent=fmt(r.imss);
+  document.getElementById('resNeto2').textContent=fmt(r.neto);
+
+  const subNote=document.getElementById('subsidioNote');
+  if(r.entrega>0){
+    subNote.style.display='block';
+    subNote.textContent='El subsidio al empleo es mayor al ISR causado: se entregan '+fmt(r.entrega)+' adicionales en efectivo junto con el pago, conforme a la regla del subsidio al empleo.';
+  }else{
+    subNote.style.display='none';
+  }
+
+  const pNeto=(r.neto/r.bruto)*100, pIsr=(r.isr/r.bruto)*100, pImss=(r.imss/r.bruto)*100;
+  document.getElementById('barNeto').style.width=Math.max(0,pNeto)+'%';
+  document.getElementById('barIsr').style.width=Math.max(0,pIsr)+'%';
+  document.getElementById('barImss').style.width=Math.max(0,pImss)+'%';
+  document.getElementById('barNeto').textContent=pNeto>12?Math.round(pNeto)+'%':'';
+
+  const how=[];
+  how.push('ISR según tarifa Art. 96: '+fmt(r.isrBase)+' (por tramo de ingreso).');
+  how.push(r.bruto<=SUBSIDIO_TOPE
+    ? 'Como el ingreso es menor a '+fmt(SUBSIDIO_TOPE)+', aplica el subsidio al empleo de '+fmt(SUBSIDIO_CUOTA)+'.'
+    : 'Como el ingreso supera '+fmt(SUBSIDIO_TOPE)+', no aplica el subsidio al empleo.');
+  if(r.entrega>0) how.push('El subsidio superó al ISR causado, así que el ISR a retener es $0.00 y se entrega la diferencia en efectivo.');
+  else how.push('ISR a retener = '+fmt(r.isrBase)+' − '+fmt(r.subsidio)+' = '+fmt(r.isr)+'.');
+  how.push('Cuota IMSS estimada = sueldo bruto × 2.78% = '+fmt(r.imss)+'.');
+  how.push('Sueldo neto = bruto − ISR a retener − IMSS'+(r.entrega>0?' + entrega en efectivo':'')+' = '+fmt(r.neto)+'.');
+  document.getElementById('howList').innerHTML=how.map(h=>`<li>${h}</li>`).join('');
+
+  document.getElementById('resultBox').classList.add('show');
+
+  const msg = mode==='bruto'
+    ? encodeURIComponent(`Hola Francisco, usé tu calculadora de sueldo neto: con un bruto de ${fmt(r.bruto)}, me dio un neto estimado de ${fmt(r.neto)}. ¿Podrías darme el cálculo exacto?`)
+    : encodeURIComponent(`Hola Francisco, usé tu calculadora de sueldo bruto: para recibir ${fmt(r.neto)} de neto necesitaría un bruto estimado de ${fmt(r.bruto)}. ¿Podrías confirmarme el cálculo exacto?`);
+  document.getElementById('waBtn').href=`https://wa.me/529993027349?text=${msg}`;
+}
+
+function calcular(){
+  const valor=+document.getElementById('monto').value||0;
+  if(valor<=0){document.getElementById('resultBox').classList.remove('show');return;}
+  let r;
+  if(mode==='bruto'){
+    r=calcularTodo(valor);
+  }else{
+    const bruto=brutoDesdeNeto(valor);
+    r=calcularTodo(bruto);
+  }
+  pintarResultado(r);
+}
+</script>
+</body>
+</html>

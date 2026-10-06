@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Cuotas IMSS 2026 por Ramo | Asesor Francisco Canto</title>
+<meta name="description" content="Calcula la cuota obrero-patronal del IMSS 2026 desglosada por ramo de seguro: enfermedad y maternidad, invalidez y vida, retiro, cesantía y vejez, guarderías e INFONAVIT. Herramienta gratuita de Asesor Francisco Canto, contador en Mérida, Yucatán.">
+<meta name="keywords" content="calculadora IMSS 2026, cuotas obrero patronales, SBC, UMA 2026, cesantia y vejez, contador Mérida, seguro social México">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--navy:#0D1B2A;--navy2:#1B2B3F;--navy3:#243B55;--gold:#C9A84C;--gold2:#E8C76A;--gray:#F4F6F8;--text:#2C3E50;--muted:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--gray)}
+
+header{background:var(--navy);padding:1rem 6%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:15px}
+.logo-text{color:#fff;font-size:13.5px;font-weight:600}
+.logo-sub{color:var(--gold);font-size:9.5px;text-transform:uppercase;letter-spacing:1px}
+.back-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--gold)}
+
+.wrap{max-width:680px;margin:0 auto;padding:2.5rem 5% 4rem}
+
+.page-head{text-align:center;margin-bottom:2rem}
+.tag{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.12);color:#8a6d1f;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:1rem}
+h1{font-size:1.7rem;color:var(--navy);margin-bottom:.6rem;line-height:1.25}
+.page-head p{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:480px;margin:0 auto}
+
+.card{background:#fff;border-radius:18px;padding:2rem;box-shadow:0 10px 40px rgba(13,27,42,.08);margin-bottom:1.5rem}
+
+.mode-toggle{display:flex;background:var(--gray);border-radius:12px;padding:5px;margin-bottom:1.8rem;gap:4px}
+.mode-btn{flex:1;padding:11px 8px;border:none;background:transparent;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);cursor:pointer;transition:all .25s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px}
+.mode-btn.active{background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--gold);box-shadow:0 4px 14px rgba(13,27,42,.2)}
+
+.field{margin-bottom:1.4rem}
+.field label{display:block;font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:9px;text-align:center}
+.big-input-wrap{position:relative;max-width:320px;margin:0 auto}
+.big-input-wrap .cur{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1.4rem;font-weight:600}
+.big-input{width:100%;border:2px solid #e2e5e9;border-radius:14px;padding:16px 16px 16px 40px;font-size:1.7rem;font-weight:700;font-family:inherit;outline:none;transition:border-color .2s;text-align:left;color:var(--navy)}
+.big-input:focus{border-color:var(--gold)}
+.field .hint{font-size:12px;color:var(--muted);margin-top:9px;text-align:center}
+
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--gold);border:none;padding:16px;border-radius:12px;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:9px;font-family:inherit}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(13,27,42,.25)}
+
+.result{display:none;margin-top:1.8rem}
+.result.show{display:block;animation:fadeUp .5s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+.res-total{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:14px;padding:1.8rem;text-align:center;margin-bottom:1.2rem}
+.res-total .lbl{color:rgba(255,255,255,.55);font-size:11.5px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.res-total .num{color:var(--gold);font-size:2.1rem;font-weight:700}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.2rem}
+.split-card{border-radius:12px;padding:1.1rem;text-align:center}
+.split-patron{background:rgba(36,59,85,.07);border:1px solid rgba(36,59,85,.15)}
+.split-trab{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.25)}
+.split-card .s-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.split-card .s-num{font-size:1.35rem;font-weight:700;color:var(--navy)}
+
+details.how{margin-top:.3rem;background:var(--gray);border-radius:10px;padding:.9rem 1.1rem}
+details.how summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--navy)}
+.ramo-table{width:100%;border-collapse:collapse;margin-top:.9rem;font-size:11.5px}
+.ramo-table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1.5px solid #d8dbe0;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px}
+.ramo-table td{padding:7px 4px;border-bottom:1px dashed #e2e5e9;color:var(--text)}
+.ramo-table td.num{text-align:right;font-weight:600;color:var(--navy)}
+.ramo-table tfoot td{font-weight:700;color:var(--navy);border-top:1.5px solid #d8dbe0;border-bottom:none;padding-top:9px}
+
+.disc{font-size:11px;color:var(--muted);font-style:italic;text-align:center;margin-top:1rem;line-height:1.6}
+.data-stamp{font-size:11px;color:var(--muted);text-align:center;margin-top:.9rem}
+.data-stamp i{color:var(--gold)}
+
+.cta-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:16px;padding:1.8rem;text-align:center}
+.cta-card i{font-size:1.8rem;color:var(--gold);margin-bottom:.8rem}
+.cta-card h3{color:#fff;font-size:1.05rem;margin-bottom:.5rem}
+.cta-card p{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:1.2rem;line-height:1.6}
+.cta-btn{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+
+.tools-nav{display:flex;gap:.7rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.tool-pill{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #e2e5e9;color:var(--navy);padding:9px 16px;border-radius:20px;text-decoration:none;font-size:12.5px;font-weight:600;transition:all .2s}
+.tool-pill:hover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.tool-pill i{color:var(--gold)}
+
+footer{text-align:center;padding:1.6rem;color:var(--muted);font-size:12px}
+footer a{color:var(--navy);text-decoration:none;font-weight:600}
+@media(max-width:480px){.ramo-table{font-size:10.5px}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">FC</div>
+    <div><div class="logo-text">Francisco Canto</div><div class="logo-sub">Asesor Contable</div></div>
+  </a>
+  <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver al sitio</a>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="tag"><i class="fa-solid fa-hospital"></i> Herramienta gratuita · Tasas 2026</div>
+    <h1>Calculadora de Cuotas IMSS</h1>
+    <p>Descubre cuánto se paga de seguro social cada mes, desglosado por cada ramo: enfermedad, invalidez, retiro, cesantía y vejez, guarderías e INFONAVIT.</p>
+  </div>
+
+  <div class="card">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeDiaBtn" onclick="setMode('dia')"><i class="fa-solid fa-calendar-day"></i> Tengo mi salario diario</button>
+      <button class="mode-btn" id="modeMesBtn" onclick="setMode('mes')"><i class="fa-solid fa-calendar"></i> Tengo mi sueldo mensual</button>
+    </div>
+
+    <div class="field">
+      <label id="inputLabel">¿Cuál es tu salario diario?</label>
+      <div class="big-input-wrap">
+        <span class="cur">$</span>
+        <input type="number" class="big-input" id="monto" placeholder="450" oninput="if(this.value)calcular()">
+      </div>
+      <p class="hint" id="inputHint">Es tu Salario Base de Cotización (SBC) — normalmente tu sueldo diario. No necesitas calcular nada, nosotros lo hacemos.</p>
+    </div>
+
+    <button class="calc-btn" onclick="calcular()"><i class="fa-solid fa-calculator"></i> Calcular cuota IMSS</button>
+
+    <div class="result" id="resultBox">
+      <div class="res-total">
+        <div class="lbl">Total mensual de la cuota IMSS</div>
+        <div class="num" id="resTotal">$0.00</div>
+      </div>
+
+      <div class="split">
+        <div class="split-card split-patron">
+          <div class="s-lbl"><i class="fa-solid fa-building"></i> Paga el patrón</div>
+          <div class="s-num" id="resPatron">$0.00</div>
+        </div>
+        <div class="split-card split-trab">
+          <div class="s-lbl"><i class="fa-solid fa-user"></i> Se descuenta al trabajador</div>
+          <div class="s-num" id="resTrab">$0.00</div>
+        </div>
+      </div>
+
+      <details class="how" open>
+        <summary>Ver desglose completo por ramo de seguro</summary>
+        <table class="ramo-table">
+          <thead><tr><th>Ramo de seguro</th><th class="num">Patrón</th><th class="num">Trabajador</th></tr></thead>
+          <tbody id="ramoBody"></tbody>
+          <tfoot><tr><td>Total</td><td class="num" id="ftPatron">$0.00</td><td class="num" id="ftTrab">$0.00</td></tr></tfoot>
+        </table>
+      </details>
+      <p class="disc">*Cálculo con las tasas oficiales 2026 del IMSS e INFONAVIT (Ley del Seguro Social), sobre un mes de 30.4 días. La cuota patronal de Riesgos de Trabajo varía según el giro de tu empresa y no está incluida — para tu prima de riesgo exacta, contáctame.</p>
+    </div>
+    <p class="data-stamp"><i class="fa-solid fa-database"></i> UMA 2026: $117.31/día · Salario mínimo general 2026: $315.04/día</p>
+  </div>
+
+  <div class="cta-card">
+    <i class="fa-brands fa-whatsapp"></i>
+    <h3>¿Necesitas tu cuota exacta?</h3>
+    <p>Te ayudo a calcular tus cuotas reales, incluida tu prima de riesgo de trabajo, y a mantenerte al día con el IMSS.</p>
+    <a href="#" class="cta-btn" id="waBtn" target="_blank"><i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp</a>
+  </div>
+
+  <div class="tools-nav">
+    <a href="calculadora-recargos.html" class="tool-pill"><i class="fa-solid fa-percent"></i> Recargos y Actualización</a>
+    <a href="calculadora-sueldos.html" class="tool-pill"><i class="fa-solid fa-sack-dollar"></i> Calculadora de Sueldos</a>
+  </div>
+</div>
+
+<footer>
+  Asesor Francisco Canto · Mérida, Yucatán · <a href="tel:9993027349">999 302 7349</a>
+</footer>
+
+<script>
+/* ==================================================================
+   DATOS OFICIALES 2026 — ACTUALIZA SOLO ESTE BLOQUE CADA AÑO
+   Fuente: Ley del Seguro Social, Ley INFONAVIT y publicación anual
+   de la UMA y el salario mínimo (CONASAMI / INEGI)
+   ================================================================== */
+const UMA_DIARIA=117.31;
+const SM_DIARIA=315.04;
+const FACTOR_MES=30.4; // días promedio de un mes, el mismo que usa el IMSS para la UMA mensual
+
+// Tabla progresiva de Cesantía y Vejez (cuota patronal), por nivel de SBC
+const CESANTIA_TABLA=[
+  {hasta:'1.0 SM',pct:3.150, test:sbc=>sbc<=SM_DIARIA},
+  {hasta:'1.50 UMA',pct:3.676, test:sbc=>sbc/UMA_DIARIA<=1.50},
+  {hasta:'2.00 UMA',pct:4.851, test:sbc=>sbc/UMA_DIARIA<=2.00},
+  {hasta:'2.50 UMA',pct:5.556, test:sbc=>sbc/UMA_DIARIA<=2.50},
+  {hasta:'3.00 UMA',pct:6.026, test:sbc=>sbc/UMA_DIARIA<=3.00},
+  {hasta:'3.50 UMA',pct:6.361, test:sbc=>sbc/UMA_DIARIA<=3.50},
+  {hasta:'4.00 UMA',pct:6.613, test:sbc=>sbc/UMA_DIARIA<=4.00},
+  {hasta:'más de 4.00 UMA',pct:7.513, test:()=>true}
+];
+/* ================================================================== */
+
+let mode='dia';
+
+function setMode(m){
+  mode=m;
+  document.getElementById('modeDiaBtn').classList.toggle('active',m==='dia');
+  document.getElementById('modeMesBtn').classList.toggle('active',m==='mes');
+  document.getElementById('monto').value='';
+  document.getElementById('resultBox').classList.remove('show');
+  if(m==='dia'){
+    document.getElementById('inputLabel').textContent='¿Cuál es tu salario diario?';
+    document.getElementById('inputHint').textContent='Es tu Salario Base de Cotización (SBC) — normalmente tu sueldo diario. No necesitas calcular nada, nosotros lo hacemos.';
+    document.getElementById('monto').placeholder='450';
+  }else{
+    document.getElementById('inputLabel').textContent='¿Cuál es tu sueldo mensual?';
+    document.getElementById('inputHint').textContent='Lo convertimos automáticamente a salario diario (entre 30.4 días) para hacer el cálculo.';
+    document.getElementById('monto').placeholder='13,500';
+  }
+}
+
+function cesantiaPct(sbc){
+  for(const r of CESANTIA_TABLA) if(r.test(sbc)) return r.pct;
+  return 7.513;
+}
+
+function calcularRamos(sbcDiario){
+  const excedente=Math.max(0,sbcDiario-3*UMA_DIARIA);
+  const cPct=cesantiaPct(sbcDiario);
+  const baseSBC=sbcDiario*FACTOR_MES;
+  const baseExc=excedente*FACTOR_MES;
+  const baseUMA=UMA_DIARIA*FACTOR_MES;
+
+  const ramos=[
+    ['Enfermedad y Maternidad — cuota fija',20.40,0,baseUMA],
+    ['Enfermedad y Maternidad — excedente de 3 UMA',1.10,0.40,baseExc],
+    ['Enfermedad y Maternidad — prestaciones en dinero',0.70,0.25,baseSBC],
+    ['Enfermedad y Maternidad — gastos médicos pensionados',1.05,0.375,baseSBC],
+    ['Invalidez y Vida',1.75,0.625,baseSBC],
+    ['Retiro',2.00,0,baseSBC],
+    ['Cesantía y Vejez ('+cPct.toFixed(3)+'%)',cPct,1.125,baseSBC],
+    ['Guarderías y prestaciones sociales',1.00,0,baseSBC],
+    ['INFONAVIT (vivienda)',5.00,0,baseSBC]
+  ].map(([nombre,pP,pO,base])=>({nombre,patron:base*(pP/100),trab:base*(pO/100)}));
+
+  const patron=ramos.reduce((s,r)=>s+r.patron,0);
+  const trab=ramos.reduce((s,r)=>s+r.trab,0);
+  return{ramos,patron,trab,total:patron+trab};
+}
+
+function calcular(){
+  const valor=+document.getElementById('monto').value||0;
+  if(valor<=0){document.getElementById('resultBox').classList.remove('show');return;}
+
+  const diario = mode==='dia' ? valor : valor/FACTOR_MES;
+  const r=calcularRamos(diario);
+  const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  document.getElementById('resTotal').textContent=fmt(r.total);
+  document.getElementById('resPatron').textContent=fmt(r.patron);
+  document.getElementById('resTrab').textContent=fmt(r.trab);
+  document.getElementById('ramoBody').innerHTML=r.ramos.map(x=>
+    `<tr><td>${x.nombre}</td><td class="num">${fmt(x.patron)}</td><td class="num">${x.trab>0?fmt(x.trab):'—'}</td></tr>`
+  ).join('');
+  document.getElementById('ftPatron').textContent=fmt(r.patron);
+  document.getElementById('ftTrab').textContent=fmt(r.trab);
+  document.getElementById('resultBox').classList.add('show');
+
+  const msg=encodeURIComponent(`Hola Francisco, usé tu calculadora de IMSS: con un salario diario de ${fmt(diario)}, me dio una cuota total estimada de ${fmt(r.total)} (patrón: ${fmt(r.patron)}, trabajador: ${fmt(r.trab)}). ¿Podrías confirmarme el cálculo exacto, incluida mi prima de riesgo?`);
+  document.getElementById('waBtn').href=`https://wa.me/529993027349?text=${msg}`;
+}
+</script>
+</body>
+</html>
